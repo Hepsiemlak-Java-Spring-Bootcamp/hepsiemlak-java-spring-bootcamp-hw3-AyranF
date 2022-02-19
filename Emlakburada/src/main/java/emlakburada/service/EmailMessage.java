@@ -11,5 +11,5 @@ public class EmailMessage {
 
 
 	private String email;
-
+	
 }

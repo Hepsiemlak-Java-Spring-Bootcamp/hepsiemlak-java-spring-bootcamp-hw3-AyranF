@@ -19,6 +19,7 @@ import emlakburada.dto.response.AdvertResponse;
 import emlakburada.model.Advert;
 import emlakburada.model.RealEstate;
 import emlakburada.model.User;
+import emlakburada.queue.RabbitMqService;
 import emlakburada.repository.DbConnectionRepository;
 import emlakburada.repository.IlanRepository;
 
@@ -40,6 +41,9 @@ public class AdvertService {
 	@Autowired
 	private BannerClient bannerClient;
 	
+	@Autowired
+	RabbitMqService rabbitMqSerivce;
+	
 
 	// @Autowired
 //	public IlanService(IlanRepository ilanRepository) {
@@ -60,7 +64,8 @@ public class AdvertService {
 
 	public AdvertResponse saveAdvert(AdvertRequest request) {
 		Advert savedAdvert = advertRepository.saveAdvert(convertToAdvert(request));
-		EmailMessage emailMessage = new EmailMessage("cemdrman@gmail.com");
+		EmailMessage emailMessage = new EmailMessage("osmanatayozturk@gmail.com");
+		rabbitMqSerivce.sendMessage(emailMessage);
 		bannerClient.saveBanner(prepareSaveBannerRequest());
 		return convertToAdvertResponse(savedAdvert);
 	}
