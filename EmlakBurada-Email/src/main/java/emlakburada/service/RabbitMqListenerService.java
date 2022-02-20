@@ -17,7 +17,12 @@ public class RabbitMqListenerService {
 	@RabbitListener(queues = "${emlakburada.rabbitmq.queue}")
 	public void receiveMessage(EmailMessage message) {
 		log.info(message.toString());
-		emailService.send(message.getEmail());
+		String msg = message.getEmail();
+		msg = msg.substring(msg.indexOf(' ')+1);
+		if(msg.equals("0"))
+			emailService.send(message.getEmail().substring(0,message.getEmail().indexOf(' ')),0);
+		else
+			emailService.send(message.getEmail().substring(0,message.getEmail().indexOf(' ')),1);
 	}
 
 }

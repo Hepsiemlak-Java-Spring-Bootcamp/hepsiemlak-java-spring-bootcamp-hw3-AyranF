@@ -32,11 +32,11 @@ public class EmailService {
 	@Autowired
 	private EmailConfig config;
 
-	public void send(String email) {
+	public void send(String email, int content) {
 		Properties properties = prepareSmtpServer();
 		Session session = prepareSessionWithCredentials(properties);
 
-		int sendMessage = sendMessage(email, session);
+		int sendMessage = sendMessage(email, session, content);
 		if (sendMessage == 0) {
 			log.info("Mail başarıyla gönderildi! -> " + email);
 		}
@@ -54,14 +54,17 @@ public class EmailService {
 
 	}
 
-	private int sendMessage(String email, Session session) {
+	private int sendMessage(String email, Session session, int content) {
 		Message message = new MimeMessage(session);
 		int lastServerResponse = 0;
 		try {
 			message.setFrom(new InternetAddress(config.getFrom()));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
 			message.setSubject(config.getSubject());
-			message.setDataHandler(new DataHandler(new HTMLDataSource(EmailContentBuilderUtil.build(email))));
+			if(content == 0)
+				message.setDataHandler(new DataHandler(new HTMLDataSource(EmailContentBuilderUtil.registerBuild(email))));
+			else
+				message.setDataHandler(new DataHandler(new HTMLDataSource(EmailContentBuilderUtil.advertBuild())));
 			message.setSentDate(new Date());
 			SMTPTransport transport = (SMTPTransport) session.getTransport("smtp");
 			transport.connect(config.getSmtpServer(), config.getUsername(), config.getPassword());
