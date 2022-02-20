@@ -50,6 +50,16 @@
 			<version>2.2.10.RELEASE</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-activemq</artifactId>
+		</dependency>
+		
+		<dependency>
+     		<groupId>io.github.openfeign</groupId>
+     		<artifactId>feign-httpclient</artifactId>
+		</dependency>
+
 	</dependencies>
 	
 	<dependencyManagement>

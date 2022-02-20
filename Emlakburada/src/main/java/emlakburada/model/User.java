@@ -14,28 +14,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User {
 
-	private String kullaniciTipi; // bireysel & kurumsal & yeniTip
-	private String isim;
+	private String userType;
+	private String name;
 	private String email;
-	private String fotograf;
-	private String biyografi;
-	private Set<Advert> favoriIlanlar = new HashSet<>();
-	private List<Advert> yayinladigiIlanlar = new ArrayList<>();
-	private List<Message> mesajKutusu;
-
-	public User(String kullaniciTipi, String isim, String email) {
-		super();
-		this.kullaniciTipi = kullaniciTipi;
-		this.isim = isim;
-		this.email = email;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
+	private String photo;
+	private String bio;
+	private int userId;
+	private ArrayList<Advert> favorites = new ArrayList<>();
+	private ArrayList<Advert> publishledAdvert = new ArrayList<>();
+	private List<Message> messageBox;
 
 }

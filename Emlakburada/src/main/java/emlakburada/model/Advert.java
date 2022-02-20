@@ -14,9 +14,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Advert {
 	private int advertNo;
+	private User user;
 	private RealEstate gayrimenkul;
 	private String baslik;
-	private User kullanici; // hem bireysel & kurumsal
 	private String[] resimList = new String[5];
 	private BigDecimal fiyat;
 	private int suresi;

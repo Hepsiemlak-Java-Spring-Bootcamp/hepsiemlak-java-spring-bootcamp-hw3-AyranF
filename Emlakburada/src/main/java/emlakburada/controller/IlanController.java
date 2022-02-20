@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import emlakburada.dto.AdvertRequest;
+import emlakburada.dto.request.AdvertRequest;
 import emlakburada.dto.response.AdvertResponse;
 import emlakburada.service.AdvertService;
 

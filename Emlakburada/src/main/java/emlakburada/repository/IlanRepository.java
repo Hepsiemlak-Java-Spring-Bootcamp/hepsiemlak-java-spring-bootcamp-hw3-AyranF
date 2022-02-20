@@ -3,36 +3,38 @@ package emlakburada.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import emlakburada.model.Advert;
 import emlakburada.model.RealEstate;
+import emlakburada.model.User;
+import emlakburada.repository.UserRepository;
+
 
 @Repository
 public class IlanRepository {
 
 	private String url = "localhost";
 	private String pass = "şifre";
-
-	private static List<Advert> ilanListesi = new ArrayList<>();
-
-	static {
-		ilanListesi.add(prepareIlan(38164780, "Sahibinden Acil Satılık"));
-		ilanListesi.add(prepareIlan(38164781, "Dosta GİDERRR ACİLLL!!!"));
-		ilanListesi.add(prepareIlan(38164782, "Metroya Koşarak 5 dk"));
-		ilanListesi.add(prepareIlan(38164783, "Öğrenciye ve Bekar uygun"));
-	}
+	
+	static List<Advert> ilanListesi = new ArrayList<>();
+	
+	@Autowired
+	private static UserRepository userRepository;
 
 	public List<Advert> fetchAllAdverts() {
 		return ilanListesi;
 	}
 
-	private static Advert prepareIlan(int advertNo, String baslik) {
+	static Advert prepareIlan(int advertNo, String baslik, int userId) {
 		Advert advert = new Advert();
+		//user.getPublishledAdverts().add(advert);
+		advert.setUser(userRepository.findUserById(userId));
 		advert.setAdvertNo(advertNo);
 		advert.setBaslik(baslik);
 		advert.setGayrimenkul(makeGayrimenkul());
-
 		// kullanici.mesajKutusu.add(new Mesaj("acil dönüş")); // NPE
 
 		// ilan.setKullanici(kullanici);
@@ -57,12 +59,15 @@ public class IlanRepository {
 
 	public Advert saveAdvert(Advert advert) {
 		ilanListesi.add(advert);
-		System.out.println(advert.toString());
 		return advert;
 	}
 
 	public Advert findAdvertByAdvertId(int advertNo) {
-		return ilanListesi.stream().filter(advert -> advert.getAdvertNo() == advertNo).findAny().orElse(new Advert());
+		for(int i = 0; i < ilanListesi.size(); i++) {
+			if(ilanListesi.get(i).getAdvertNo() == advertNo)
+				return ilanListesi.get(i);
+		}
+		return null;
 	}
 
 }
